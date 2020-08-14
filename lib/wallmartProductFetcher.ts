@@ -211,11 +211,32 @@ export class WallmartProductFetcher extends ProductFetcher {
     }
 
     /**
+     * @description Checks if the screenshots folder exist
+     */
+    checkScreenshotsDir(){
+        if(!fs.existsSync("./screenshots") || !fs.statSync("./screenshots").isDirectory()){
+            fs.mkdirSync("./screenshots");
+        }
+    }
+
+    /**
+     * @description Checks if the product screenshots exist
+     */
+    checkProductsScreenshotsDir(){
+        if(!fs.existsSync('./screenshots/products') || !fs.statSync("./screenshots/products").isDirectory()){
+            fs.mkdirSync("./screenshots/products");
+        }
+    }
+
+    /**
      * @description Takes a screenshot from the main page
      * @param name The name of the screenshot
      */
     private async takeMainPageScreenshot(name="location1"){
-        if(!fs)
+        this.checkScreenshotsDir();
+        if(!!process.env.NO_SCREENSHOTS){
+            return;
+        }
         await this.mainProductsPage.screenshot({
             path: `./screenshots/main_screen_${name}.png`
         });
@@ -228,8 +249,9 @@ export class WallmartProductFetcher extends ProductFetcher {
      * @param suffix The suffix for the screenshot (it's custom name)
      */
     private async takeProductPageScreenshot(page: Page, sku:string, suffix?:string){
-        if(!fs.existsSync("./screenshots") || !fs.statSync("./screenshots").isDirectory()){
-            fs.mkdirSync("./screenshots");
+        this.checkProductsScreenshotsDir();
+        if(!!process.env.NO_SCREENSHOTS){
+            return;
         }
         await page.screenshot({
             path: `./screenshots/products/${sku}${suffix ? `_${suffix}` : ''}.png`
