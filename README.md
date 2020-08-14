@@ -17,6 +17,9 @@ It can be launched via:
 You can set up a set of environment variables that will help you to configure the search functionality.
 
 **SEARCH_CATEGORY** The category code to be used to search the products. An integer.
+
 **SEARCH_LOCATION** The location for the products to be searched at. Can be a zip code or a city.
+
 **PAGES_TO_SCRAP** The number of pages to scrap.
+
 **NO_SCREENSHOTS** If this exists, it will not take screenshots.
